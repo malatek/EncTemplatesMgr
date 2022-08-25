@@ -131,8 +131,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EncTemplatesMgr User Documentation 20220825.pdf" />
-    <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="View\App.config" />
   </ItemGroup>
