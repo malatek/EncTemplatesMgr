@@ -1,0 +1,151 @@
+﻿<Window x:Class="EncTemplatesMgr.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EncTemplatesMgr"
+        mc:Ignorable="d"
+        Title="Settings Templates" Height="650" Width="1000">
+    <Grid Background="#2b2b2b">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="210"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" CornerRadius="10" BorderThickness="5" Grid.ColumnSpan="2" Grid.RowSpan="1">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,.1" EndPoint=".0019,1">
+                    <GradientStop Color="#FF6F0000" Offset="0.0" />
+                    <GradientStop Color="#2b2b2b" Offset="0.7" />
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Rectangle Grid.Row="0">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,.1" EndPoint=".0019,1">
+                        <GradientStop Color="#FF6F0000" Offset="0.0" />
+                        <GradientStop Color="#2b2b2b" Offset="0.9" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Border>
+        <StackPanel Grid.Row="0" Margin="0, 10" Orientation="Horizontal">
+            <Label Foreground="White" FontWeight="Bold" FontSize="14" VerticalAlignment="Center">Template Type</Label>
+            <ComboBox Name="templateType" Width="200" Height="25" Margin="20,0" ItemsSource="{Binding}"></ComboBox>
+        </StackPanel>
+        <!--<Border Grid.Row="1" CornerRadius="10" BorderThickness="5" Grid.ColumnSpan="2" Grid.RowSpan="1">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#FF6F0000" Offset="0.0" />
+                    <GradientStop Color="#2b2b2b" Offset="0.95" />
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Rectangle Grid.Row="1">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#FF6F0000" Offset="0.0" />
+                        <GradientStop Color="#2b2b2b" Offset="0.9" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Border>-->
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+            <StackPanel>
+                <Label Foreground="White" Margin="0,0,0,10" FontWeight="Bold" FontSize="14">Template Filters</Label>
+                <Label Foreground="LightGray">If either matches template will be updated. Blank entries are ignored.</Label>
+                <Label Foreground="LightGray">An * in either will select all.</Label>
+                <StackPanel Orientation="Horizontal">
+                    <Label Foreground="LightGray" Width="150">File Path Contains</Label>
+                    <TextBox Name="filePathContains" Width="200" Height="20"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Foreground="LightGray" Width="150">Template Name Contains</Label>
+                    <TextBox Name="templateNameContains" Width="200" Height="20"></TextBox>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Margin="20,0,0,0">
+                <Label Foreground="White">Filter on field values in the templates. Ignored if a match is found in File Path or Template Name.</Label>
+                <Label Foreground="LightGray">All values must match for template to be included.</Label>
+                <DataGrid x:Name="filterFieldsAndValuesGrid" Height="120" Width="300" Margin="10,0" HorizontalAlignment="Left" Background="Gray" ItemsSource="{Binding}" AutoGenerateColumns="False" SelectionChanged="filterFieldsAndValuesGrid_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Field ID" Binding="{Binding Path=FieldId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100*"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding Path=FieldValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100*"/>
+                        <DataGridTemplateColumn Header="Delete" Width="40*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete" Command="Delete"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+        <Border Grid.Row="2" Grid.Column="0" CornerRadius="10" BorderThickness="5">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FF6F0000" Offset="0.0" />
+                    <GradientStop Color="#2b2b2b" Offset="0.65" />
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Rectangle Grid.Row="2" Grid.Column="0">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FF6F0000" Offset="0.0" />
+                        <GradientStop Color="#2b2b2b" Offset="0.65" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Border>
+        <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left">
+            <Label Foreground="White" FontWeight="Bold" FontSize="14">Export and Import Templates in JSON file</Label>
+            <Label Foreground="LightGray" VerticalAlignment="Center">File Path:</Label>
+            <TextBox Name="exportFilePath" Margin="10" Height="25" Width="200" HorizontalAlignment="Left" Text="C:\temp\export.json"/>
+            <Button Background="#2b2b2b" Foreground="White" BorderBrush="#FF941616" Content="Export Templates" Margin="10" Height="25" Width="200" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="ButtonExportTemplates_Click"/>
+            <Label Foreground="LightGray">Imported templates will not overwrite existing templates with the same name.</Label>
+            <Button Background="#2b2b2b" Foreground="White" BorderBrush="#FF941616" Content="Import Templates" Margin="10" Height="25" Width="200" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="ButtonImportTemplates_Click"/>
+        </StackPanel>
+        <Border Grid.Row="2" Grid.Column="1" CornerRadius="10" BorderThickness="5">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FF6F0000" Offset="0.0" />
+                    <GradientStop Color="#2b2b2b" Offset="0.65" />
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Rectangle Grid.Row="2" Grid.Column="1">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FF6F0000" Offset="0.0" />
+                        <GradientStop Color="#2b2b2b" Offset="0.65" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Border>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+            <StackPanel>
+                <Label Foreground="White" FontWeight="Bold" FontSize="14">Update Template Fields</Label>
+                <Label Foreground="LightGray">Description to append to the top of the current template description.</Label>
+                <Label Foreground="LightGray" Margin="0,0,0,8">If left blank no description will be added.</Label>
+                <TextBox Name="appendDescription" Width="300" Height="25" Margin="10,0" HorizontalAlignment="Left"/>
+                <Label Foreground="LightGray" Margin="0,20,0,0">Fields to update and values to update them to.</Label>
+                <DataGrid x:Name="fieldsAndValuesGrid"  Height="120" Width="300" Margin="10,0" HorizontalAlignment="Left" Background="Gray" ItemsSource="{Binding}" AutoGenerateColumns="False" SelectionChanged="fieldsAndValuesGrid_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Field ID" Binding="{Binding Path=FieldId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100*"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding Path=FieldValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100*"/>
+                        <DataGridTemplateColumn Header="Delete" Width="40*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete" Command="Delete"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Background="#2b2b2b" Foreground="White" BorderBrush="#FF941616" Content="Update Templates" Height="25" Width="200" Margin="10" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="ButtonUpdateTemplates_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

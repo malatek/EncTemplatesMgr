@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncTemplatesMgr", "EncTemplatesMgr\EncTemplatesMgr.csproj", "{8775CF98-F9F7-47C1-BED1-9C3C40F1DF75}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncTemplatesMgr_Tests", "EncTemplatesMgr_Tests\EncTemplatesMgr_Tests.csproj", "{69761FCE-E21E-4D3A-850F-FB0094D4B986}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8775CF98-F9F7-47C1-BED1-9C3C40F1DF75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8775CF98-F9F7-47C1-BED1-9C3C40F1DF75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8775CF98-F9F7-47C1-BED1-9C3C40F1DF75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8775CF98-F9F7-47C1-BED1-9C3C40F1DF75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69761FCE-E21E-4D3A-850F-FB0094D4B986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69761FCE-E21E-4D3A-850F-FB0094D4B986}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69761FCE-E21E-4D3A-850F-FB0094D4B986}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69761FCE-E21E-4D3A-850F-FB0094D4B986}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCAF15FC-3D28-4753-996C-C21AF65AD9CA}
+	EndGlobalSection
+EndGlobal
