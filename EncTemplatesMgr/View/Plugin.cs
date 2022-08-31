@@ -54,7 +54,8 @@ namespace EncTemplatesMgr.View
         private void AddAccessControlToUI()
         {
             System.Windows.Forms.Form main = null;
-            foreach (System.Windows.Forms.Form form in Application.OpenForms)
+            var openForms = Application.OpenForms;
+            foreach (System.Windows.Forms.Form form in openForms)
             {
                 if (form.Text.Contains("Encompass"))
                 {
@@ -63,8 +64,13 @@ namespace EncTemplatesMgr.View
                 }
             }
 
-            if (main == null) 
-                return;
+            if (main == null)
+            {
+                if (openForms[0] == null)
+                    return;
+
+                main = openForms[0];
+            }
 
             System.Windows.Forms.Control[] controls = main.Controls.Find("mainMenu", true);
 
