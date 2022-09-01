@@ -56,6 +56,14 @@ namespace EncTemplatesMgr.Common
                         this.ImportCustomTemplate(customTemplate);
                     }
                 }
+                else if (this._templateSettingsType == TemplateSettingsType.LoanProgram)
+                {
+                    var importTemplates = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CustomLoanProgramTemplate>>(jsonString);
+                    foreach (var customTemplate in importTemplates)
+                    {
+                        this.ImportCustomTemplate(customTemplate);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -74,10 +82,10 @@ namespace EncTemplatesMgr.Common
             FieldDataTemplate newTemplate = null;
 
             if (this._templateSettingsType == TemplateSettingsType.MiscData)
-                newTemplate = ((CustomDataTemplate)customTemplate).ConvertToDataTemplate();
+                newTemplate = ((CustomDataTemplate)customTemplate).ToDataTemplate();
 
             if (this._templateSettingsType == TemplateSettingsType.ClosingCost)
-                newTemplate = ((CustomClosingCostTemplate)customTemplate).ConvertToClosingCostTemplate();
+                newTemplate = ((CustomClosingCostTemplate)customTemplate).ToClosingCostTemplate();
 
             var newFileSystemEntry = FileSystemEntry.Parse(fileSystemEntryName + "\\" + newTemplate.TemplateName);
             ConfigManager.ConfigurationManager.SaveTemplateSettings(this._templateSettingsType, newFileSystemEntry, newTemplate);

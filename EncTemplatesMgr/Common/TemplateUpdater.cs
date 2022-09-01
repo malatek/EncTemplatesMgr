@@ -75,6 +75,11 @@ namespace EncTemplatesMgr.Common
                         if (this.TemplateFilter == null || this.TemplateFilter.TemplateInFilter(entry, (ClosingCost)thisTemplate))
                             this.WriteToTemplate((ClosingCost)thisTemplate, entry);
                     }
+                    else if (this._templateSettingsType == TemplateSettingsType.LoanProgram)
+                    {
+                        if (this.TemplateFilter == null || this.TemplateFilter.TemplateInFilter(entry, (LoanProgram)thisTemplate))
+                            this.WriteToTemplate((LoanProgram)thisTemplate, entry);
+                    }
                     // ToDo: consider implementing this later. Need to track/grab alternate input data.
                     //else if (this.applyAlternate)
                     //{

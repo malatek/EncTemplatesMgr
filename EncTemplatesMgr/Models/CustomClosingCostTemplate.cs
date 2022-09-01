@@ -73,7 +73,7 @@ namespace EncTemplatesMgr.Models
         /// Convert this to an Encompass ClosingCost Template.
         /// </summary>
         /// <returns>New ClosingCost Template.</returns>
-        public ClosingCost ConvertToClosingCostTemplate()
+        public ClosingCost ToClosingCostTemplate()
         {
             var closingCost = new ClosingCost()
             {
@@ -81,7 +81,7 @@ namespace EncTemplatesMgr.Models
                 Description = this.Description
             };
 
-            foreach (var kvp in this._fieldIDsAndValues)
+            foreach (var kvp in this.FieldIDsAndValues)
             {
                 try
                 {

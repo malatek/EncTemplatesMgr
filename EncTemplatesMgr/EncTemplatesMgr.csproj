@@ -120,6 +120,7 @@
     <Compile Include="Models\CustomClosingCostTemplate.cs" />
     <Compile Include="Models\CustomDataTemplate.cs" />
     <Compile Include="Common\TemplateUpdater.cs" />
+    <Compile Include="Models\CustomLoanProgramTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\FieldData.cs" />
     <Compile Include="View\Codebase.cs">

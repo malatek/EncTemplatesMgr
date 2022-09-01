@@ -44,7 +44,7 @@ namespace EncTemplatesMgr
         {
             InitializeComponent();
             // this.ResetUIData();
-            this.templateType.DataContext = new List<TemplateSettingsType?>() { null, TemplateSettingsType.MiscData, TemplateSettingsType.ClosingCost };
+            this.templateType.DataContext = new List<TemplateSettingsType?>() { null, TemplateSettingsType.LoanProgram, TemplateSettingsType.MiscData, TemplateSettingsType.ClosingCost };
             this.fieldsAndValuesGrid.DataContext = _fieldData;
             this.filterFieldsAndValuesGrid.DataContext = _filterFieldData;
         }

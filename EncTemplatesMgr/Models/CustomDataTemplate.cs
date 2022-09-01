@@ -85,7 +85,7 @@ namespace EncTemplatesMgr.Models
         /// Convert this to an Encompass DataTemplate.
         /// </summary>
         /// <returns>New DataTemplate.</returns>
-        public DataTemplate ConvertToDataTemplate()
+        public DataTemplate ToDataTemplate()
         {
             DataTemplate newDataTemplate = new DataTemplate
             {
