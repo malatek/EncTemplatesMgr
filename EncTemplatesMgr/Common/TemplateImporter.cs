@@ -45,7 +45,8 @@ namespace EncTemplatesMgr.Common
                     var importTemplates = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CustomDataTemplate>>(jsonString);
                     foreach (var customTemplate in importTemplates)
                     {
-                        this.ImportCustomTemplate(customTemplate);
+                        if (this.TemplateFilter == null || TemplateFilter.TemplateInFilter(customTemplate))
+                            this.ImportCustomTemplate(customTemplate);
                     }
                 }
                 else if (this._templateSettingsType == TemplateSettingsType.ClosingCost) 
@@ -53,7 +54,8 @@ namespace EncTemplatesMgr.Common
                     var importTemplates = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CustomClosingCostTemplate>>(jsonString);
                     foreach (var customTemplate in importTemplates)
                     {
-                        this.ImportCustomTemplate(customTemplate);
+                        if (this.TemplateFilter == null || TemplateFilter.TemplateInFilter(customTemplate)) 
+                            this.ImportCustomTemplate(customTemplate);
                     }
                 }
                 else if (this._templateSettingsType == TemplateSettingsType.LoanProgram)
@@ -61,7 +63,8 @@ namespace EncTemplatesMgr.Common
                     var importTemplates = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CustomLoanProgramTemplate>>(jsonString);
                     foreach (var customTemplate in importTemplates)
                     {
-                        this.ImportCustomTemplate(customTemplate);
+                        if (this.TemplateFilter == null || TemplateFilter.TemplateInFilter(customTemplate)) 
+                            this.ImportCustomTemplate(customTemplate);
                     }
                 }
             }
@@ -86,6 +89,15 @@ namespace EncTemplatesMgr.Common
 
             if (this._templateSettingsType == TemplateSettingsType.ClosingCost)
                 newTemplate = ((CustomClosingCostTemplate)customTemplate).ToClosingCostTemplate();
+
+            if (this._templateSettingsType == TemplateSettingsType.LoanProgram)
+                newTemplate = ((CustomLoanProgramTemplate)customTemplate).ToLoanProgram();
+
+            if (newTemplate == null)
+            {
+                Log.Logger.Error("New Template is null.");
+                return;
+            }
 
             var newFileSystemEntry = FileSystemEntry.Parse(fileSystemEntryName + "\\" + newTemplate.TemplateName);
             ConfigManager.ConfigurationManager.SaveTemplateSettings(this._templateSettingsType, newFileSystemEntry, newTemplate);

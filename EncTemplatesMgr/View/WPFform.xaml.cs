@@ -84,8 +84,18 @@ namespace EncTemplatesMgr
                 return;
             }
 
+            var filter = new Filter()
+            {
+                FilterFilePath = this.filePathContains.Text,
+                FilterTemplateName = this.templateNameContains.Text,
+                FilterFieldValues = this.FieldDataCollectionToDictionary(this._filterFieldData)
+            };
+
             var exportPath = this.CheckFilePath(this.exportFilePath.Text);
-            var templateImport = new TemplateImporter((TemplateSettingsType)templateType.SelectedValue);
+            var templateImport = new TemplateImporter((TemplateSettingsType)templateType.SelectedValue)
+            {
+                TemplateFilter = filter
+            };
             templateImport.ImportTemplates(exportPath);
 
             this.ResetUIData();
