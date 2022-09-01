@@ -44,7 +44,7 @@ namespace EncTemplatesMgr
         {
             InitializeComponent();
             // this.ResetUIData();
-            this.templateType.DataContext = new List<TemplateSettingsType?>() { null, TemplateSettingsType.MiscData, TemplateSettingsType.ClosingCost };
+            this.templateType.DataContext = new List<TemplateSettingsType?>() { null, TemplateSettingsType.LoanProgram, TemplateSettingsType.MiscData, TemplateSettingsType.ClosingCost };
             this.fieldsAndValuesGrid.DataContext = _fieldData;
             this.filterFieldsAndValuesGrid.DataContext = _filterFieldData;
         }
@@ -84,8 +84,18 @@ namespace EncTemplatesMgr
                 return;
             }
 
+            var filter = new Filter()
+            {
+                FilterFilePath = this.filePathContains.Text,
+                FilterTemplateName = this.templateNameContains.Text,
+                FilterFieldValues = this.FieldDataCollectionToDictionary(this._filterFieldData)
+            };
+
             var exportPath = this.CheckFilePath(this.exportFilePath.Text);
-            var templateImport = new TemplateImporter((TemplateSettingsType)templateType.SelectedValue);
+            var templateImport = new TemplateImporter((TemplateSettingsType)templateType.SelectedValue)
+            {
+                TemplateFilter = filter
+            };
             templateImport.ImportTemplates(exportPath);
 
             this.ResetUIData();

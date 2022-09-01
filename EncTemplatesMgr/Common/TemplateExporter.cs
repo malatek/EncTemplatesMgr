@@ -97,6 +97,17 @@ namespace EncTemplatesMgr.Common
                         else
                             customTemplate.FilePath = template.Path;
                     }
+                    else if (this._templateSettingsType == TemplateSettingsType.LoanProgram)
+                    {
+                        if (this.TemplateFilter != null && !this.TemplateFilter.TemplateInFilter(template, (LoanProgram)thisTemplate))
+                            continue;
+
+                        customTemplate = (CustomLoanProgramTemplate)(LoanProgram)thisTemplate;
+                        if (template.Path.EndsWith(template.Name))
+                            customTemplate.FilePath = template.Path.Remove(template.Path.Length - template.Name.Length);
+                        else
+                            customTemplate.FilePath = template.Path;
+                    }
 
                     if (customTemplate != null)
                         this._customTemplateList.Add(customTemplate);
