@@ -22,6 +22,11 @@ namespace EncTemplatesMgr.Models
         /// </summary>
         public string FilePath { get; set; }
 
+        /// <summary>
+        /// Respa Form version.
+        /// </summary>
+        public string RespaTilaFormVersion { get; set; }
+
         private Dictionary<string, string> _fieldIDsAndValues;
 
         /// <summary>
@@ -50,7 +55,8 @@ namespace EncTemplatesMgr.Models
             var customClosingCostTemplate = new CustomClosingCostTemplate()
             {
                 Name = closingCost.TemplateName,
-                Description = closingCost.Description
+                Description = closingCost.Description,
+                RespaTilaFormVersion = closingCost.RESPAVersion
             };
 
             var fieldsAndValues = new Dictionary<string, string>();
@@ -78,7 +84,8 @@ namespace EncTemplatesMgr.Models
             var closingCost = new ClosingCost()
             {
                 TemplateName = this.Name,
-                Description = this.Description
+                Description = this.Description,
+                RESPAVersion = this.RespaTilaFormVersion
             };
 
             foreach (var kvp in this.FieldIDsAndValues)
