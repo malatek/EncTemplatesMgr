@@ -103,9 +103,9 @@
         <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left">
             <Label Foreground="White" FontWeight="Bold" FontSize="14">Export and Import Templates in JSON file</Label>
             <Label Foreground="LightGray" VerticalAlignment="Center">File Path:</Label>
-            <TextBox Name="exportFilePath" Margin="10" Height="25" Width="200" HorizontalAlignment="Left" Text="C:\temp\export.json"/>
+            <TextBox Name="exportFilePath" Margin="10" Height="25" Width="200" HorizontalAlignment="Left"/>
             <Button Background="#2b2b2b" Foreground="White" BorderBrush="#FF941616" Content="Export Templates" Margin="10" Height="25" Width="200" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="ButtonExportTemplates_Click"/>
-            <Label Foreground="LightGray">Imported templates will not overwrite existing templates with the same name.</Label>
+            <CheckBox Foreground="White" Margin="12, 10, 0, 0" Name="OverwriteExisting">Overwrite existing templates.</CheckBox>
             <Button Background="#2b2b2b" Foreground="White" BorderBrush="#FF941616" Content="Import Templates" Margin="10" Height="25" Width="200" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="ButtonImportTemplates_Click"/>
         </StackPanel>
         <Border Grid.Row="2" Grid.Column="1" CornerRadius="10" BorderThickness="5">

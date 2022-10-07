@@ -40,23 +40,33 @@ namespace EncTemplatesMgr
         /// </summary>
         private readonly string _msgTypeNotSelected = "A Template Type must be selected. No action has been taken.";
 
+        /// <summary>
+        /// What to show the user when run is finished.
+        /// </summary>
+        private readonly string _msgFinished = "Operation Complete.";
+
         public MainWindow()
         {
             InitializeComponent();
-            // this.ResetUIData();
-            this.templateType.DataContext = new List<TemplateSettingsType?>() { null, TemplateSettingsType.LoanProgram, TemplateSettingsType.MiscData, TemplateSettingsType.ClosingCost };
+            //this.templateType.DataContext = new List<TemplateSettingsType?>() { null, TemplateSettingsType.LoanProgram, TemplateSettingsType.MiscData, TemplateSettingsType.ClosingCost };
+            this.PopulateTemplateTypeCombobox();
             this.fieldsAndValuesGrid.DataContext = _fieldData;
             this.filterFieldsAndValuesGrid.DataContext = _filterFieldData;
         }
-       
+
+        private void PopulateTemplateTypeCombobox()
+        {
+            this.templateType.DisplayMemberPath = "Key";
+            this.templateType.SelectedValuePath = "Value";
+            this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Loan Program", TemplateSettingsType.LoanProgram));
+            this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Data Template", TemplateSettingsType.MiscData));
+            this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Closing Cost", TemplateSettingsType.ClosingCost));
+        }
 
         private void ButtonExportTemplates_Click(object sender, RoutedEventArgs e)
         {
-            if (this.templateType.SelectedValue == null)
-            {
-                MessageBox.Show(this._msgTypeNotSelected);
+            if (string.IsNullOrEmpty(this.templateType.Text))
                 return;
-            }
 
             var filter = new Filter()
             {
@@ -72,17 +82,13 @@ namespace EncTemplatesMgr
             };
 
             templateExport.ExportTemplates(exportPath);
-
             this.ResetUIData();
         }
 
         private void ButtonImportTemplates_Click(object sender, RoutedEventArgs e)
         {
-            if (this.templateType.SelectedValue == null)
-            {
-                MessageBox.Show(this._msgTypeNotSelected);
+            if (string.IsNullOrEmpty(this.templateType.Text))
                 return;
-            }
 
             var filter = new Filter()
             {
@@ -91,23 +97,27 @@ namespace EncTemplatesMgr
                 FilterFieldValues = this.FieldDataCollectionToDictionary(this._filterFieldData)
             };
 
-            var exportPath = this.CheckFilePath(this.exportFilePath.Text);
+            var importPath = this.exportFilePath.Text;
+            if (string.IsNullOrEmpty(importPath))
+            {
+                MessageBox.Show("Import path must be specified.");
+                return;
+            }
+
             var templateImport = new TemplateImporter((TemplateSettingsType)templateType.SelectedValue)
             {
-                TemplateFilter = filter
+                TemplateFilter = filter,
+                OverwriteExisting = (bool)this.OverwriteExisting.IsChecked
             };
-            templateImport.ImportTemplates(exportPath);
 
+            templateImport.ImportTemplates(importPath);
             this.ResetUIData();
         }
 
         private void ButtonUpdateTemplates_Click(object sender, RoutedEventArgs e)
         {
-            if (this.templateType.SelectedValue == null)
-            {
-                MessageBox.Show(this._msgTypeNotSelected);
+            if (string.IsNullOrEmpty(this.templateType.Text))
                 return;
-            }
 
             var filter = new Filter()
             {
@@ -123,7 +133,6 @@ namespace EncTemplatesMgr
             { TemplateFilter = filter };
 
             templateUpdate.UpdateTemplates();
-
             this.ResetUIData();
         }
 
@@ -148,7 +157,10 @@ namespace EncTemplatesMgr
         private string CheckFilePath(string path)
         {
             if (string.IsNullOrEmpty(path))
-                return System.IO.Path.GetTempPath();
+            {
+                path = System.IO.Path.GetTempPath() + "export.json";
+                this.exportFilePath.Text = path;
+            }
 
             return path;
         }
@@ -158,6 +170,8 @@ namespace EncTemplatesMgr
             this.filePathContains.Text = string.Empty;
             this.templateNameContains.Text = string.Empty;
             this.appendDescription.Text = string.Empty;
+            this.exportFilePath.Text = string.Empty;
+            this.OverwriteExisting.IsChecked = false;
         }
 
         private void filterFieldsAndValuesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
