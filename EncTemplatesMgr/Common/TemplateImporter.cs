@@ -23,6 +23,11 @@ namespace EncTemplatesMgr.Common
         public Filter TemplateFilter { get; set; }
 
         /// <summary>
+        /// Overwrite templates if they already exist.
+        /// </summary>
+        public bool OverwriteExisting { get; set; }
+
+        /// <summary>
         /// Import templates of type TemplateSettingsType.
         /// </summary>
         /// <param name="templateSettingsType">Type of template(s) being imported.</param>
@@ -100,7 +105,9 @@ namespace EncTemplatesMgr.Common
             }
 
             var newFileSystemEntry = FileSystemEntry.Parse(fileSystemEntryName + "\\" + newTemplate.TemplateName);
-            ConfigManager.ConfigurationManager.SaveTemplateSettings(this._templateSettingsType, newFileSystemEntry, newTemplate);
+
+            if (this.OverwriteExisting || !ConfigManager.ConfigurationManager.TemplateSettingsObjectExists(this._templateSettingsType, newFileSystemEntry))
+                ConfigManager.ConfigurationManager.SaveTemplateSettings(this._templateSettingsType, newFileSystemEntry, newTemplate);
         }
     }
 }

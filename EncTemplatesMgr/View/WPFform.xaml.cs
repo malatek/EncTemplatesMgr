@@ -40,10 +40,14 @@ namespace EncTemplatesMgr
         /// </summary>
         private readonly string _msgTypeNotSelected = "A Template Type must be selected. No action has been taken.";
 
+        /// <summary>
+        /// What to show the user when run is finished.
+        /// </summary>
+        private readonly string _msgFinished = "Operation Complete.";
+
         public MainWindow()
         {
             InitializeComponent();
-            // this.ResetUIData();
             this.templateType.DataContext = new List<TemplateSettingsType?>() { null, TemplateSettingsType.LoanProgram, TemplateSettingsType.MiscData, TemplateSettingsType.ClosingCost };
             this.fieldsAndValuesGrid.DataContext = _fieldData;
             this.filterFieldsAndValuesGrid.DataContext = _filterFieldData;
@@ -72,8 +76,8 @@ namespace EncTemplatesMgr
             };
 
             templateExport.ExportTemplates(exportPath);
-
             this.ResetUIData();
+            MessageBox.Show(this._msgFinished);
         }
 
         private void ButtonImportTemplates_Click(object sender, RoutedEventArgs e)
@@ -94,11 +98,13 @@ namespace EncTemplatesMgr
             var exportPath = this.CheckFilePath(this.exportFilePath.Text);
             var templateImport = new TemplateImporter((TemplateSettingsType)templateType.SelectedValue)
             {
-                TemplateFilter = filter
+                TemplateFilter = filter,
+                OverwriteExisting = (bool)this.OverwriteExisting.IsChecked
             };
-            templateImport.ImportTemplates(exportPath);
 
+            templateImport.ImportTemplates(exportPath);
             this.ResetUIData();
+            MessageBox.Show(this._msgFinished);
         }
 
         private void ButtonUpdateTemplates_Click(object sender, RoutedEventArgs e)
@@ -123,8 +129,8 @@ namespace EncTemplatesMgr
             { TemplateFilter = filter };
 
             templateUpdate.UpdateTemplates();
-
             this.ResetUIData();
+            MessageBox.Show(this._msgFinished);
         }
 
         private Dictionary<string, string> FieldDataCollectionToDictionary(ObservableCollection<FieldData> fieldDataCollection)

@@ -93,6 +93,9 @@ namespace EncTemplatesMgr.View
             // Needed to launch this in a new thread to fix the text entry issues.
             // https://www.codeproject.com/questions/495662/canplusnotplusenterplusaplustextplusinsideplustext
 
+            if (!this.AccessToToolAllowed())
+                return;
+
             _wpfThread = new Thread(new ThreadStart(WpfForm));
             if (this._wpfThread == null)
                 return;
