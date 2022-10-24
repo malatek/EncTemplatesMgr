@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,20 +36,9 @@ namespace EncTemplatesMgr
         /// </summary>
         private ObservableCollection<FieldData> _filterFieldData = new ObservableCollection<FieldData>(new List<FieldData>());
 
-        /// <summary>
-        /// What to show the user when there isn't a template type selected.
-        /// </summary>
-        private readonly string _msgTypeNotSelected = "A Template Type must be selected. No action has been taken.";
-
-        /// <summary>
-        /// What to show the user when run is finished.
-        /// </summary>
-        private readonly string _msgFinished = "Operation Complete.";
-
         public MainWindow()
         {
             InitializeComponent();
-            //this.templateType.DataContext = new List<TemplateSettingsType?>() { null, TemplateSettingsType.LoanProgram, TemplateSettingsType.MiscData, TemplateSettingsType.ClosingCost };
             this.PopulateTemplateTypeCombobox();
             this.fieldsAndValuesGrid.DataContext = _fieldData;
             this.filterFieldsAndValuesGrid.DataContext = _filterFieldData;
@@ -82,7 +72,7 @@ namespace EncTemplatesMgr
             };
 
             templateExport.ExportTemplates(exportPath);
-            this.ResetUIData();
+            MessageBox.Show(Application.Current.MainWindow, "Template export complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ButtonImportTemplates_Click(object sender, RoutedEventArgs e)
@@ -98,9 +88,9 @@ namespace EncTemplatesMgr
             };
 
             var importPath = this.exportFilePath.Text;
-            if (string.IsNullOrEmpty(importPath))
+            if (string.IsNullOrEmpty(importPath) || !File.Exists(importPath))
             {
-                MessageBox.Show("Import path must be specified.");
+                MessageBox.Show("Import path is not valid.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -111,7 +101,7 @@ namespace EncTemplatesMgr
             };
 
             templateImport.ImportTemplates(importPath);
-            this.ResetUIData();
+            MessageBox.Show(Application.Current.MainWindow, "Template import complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ButtonUpdateTemplates_Click(object sender, RoutedEventArgs e)
@@ -133,7 +123,7 @@ namespace EncTemplatesMgr
             { TemplateFilter = filter };
 
             templateUpdate.UpdateTemplates();
-            this.ResetUIData();
+            MessageBox.Show(Application.Current.MainWindow, "Template updates complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private Dictionary<string, string> FieldDataCollectionToDictionary(ObservableCollection<FieldData> fieldDataCollection)
@@ -158,7 +148,7 @@ namespace EncTemplatesMgr
         {
             if (string.IsNullOrEmpty(path))
             {
-                path = System.IO.Path.GetTempPath() + "export.json";
+                path = "C:\\temp\\export.json";
                 this.exportFilePath.Text = path;
             }
 
