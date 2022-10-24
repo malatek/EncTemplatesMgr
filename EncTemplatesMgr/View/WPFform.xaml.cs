@@ -36,12 +36,18 @@ namespace EncTemplatesMgr
         /// </summary>
         private ObservableCollection<FieldData> _filterFieldData = new ObservableCollection<FieldData>(new List<FieldData>());
 
+        /// <summary>
+        /// Default import/export path.
+        /// </summary>
+        private readonly string _defaultFilePath = "C:\\temp\\export.json";
+
         public MainWindow()
         {
             InitializeComponent();
             this.PopulateTemplateTypeCombobox();
             this.fieldsAndValuesGrid.DataContext = _fieldData;
             this.filterFieldsAndValuesGrid.DataContext = _filterFieldData;
+            this.exportFilePath.Text = this._defaultFilePath;
         }
 
         private void PopulateTemplateTypeCombobox()
@@ -51,6 +57,12 @@ namespace EncTemplatesMgr
             this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Loan Program", TemplateSettingsType.LoanProgram));
             this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Data Template", TemplateSettingsType.MiscData));
             this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Closing Cost", TemplateSettingsType.ClosingCost));
+        }
+
+        private void ExportFilePath_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (this.exportFilePath.Text == this._defaultFilePath)
+                this.exportFilePath.Text = string.Empty;
         }
 
         private void ButtonExportTemplates_Click(object sender, RoutedEventArgs e)
@@ -148,7 +160,7 @@ namespace EncTemplatesMgr
         {
             if (string.IsNullOrEmpty(path))
             {
-                path = "C:\\temp\\export.json";
+                path = _defaultFilePath;
                 this.exportFilePath.Text = path;
             }
 
