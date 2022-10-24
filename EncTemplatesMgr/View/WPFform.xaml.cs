@@ -1,6 +1,7 @@
 ﻿using EllieMae.EMLite.ClientServer;
 using EncTemplatesMgr.Common;
 using EncTemplatesMgr.ViewModel;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,6 +64,13 @@ namespace EncTemplatesMgr
         {
             if (this.exportFilePath.Text == this._defaultFilePath)
                 this.exportFilePath.Text = string.Empty;
+        }
+
+        private void ButtonFilePicker_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            if ((bool)openFileDialog.ShowDialog())
+                this.exportFilePath.Text = openFileDialog.FileName;
         }
 
         private void ButtonExportTemplates_Click(object sender, RoutedEventArgs e)
