@@ -90,7 +90,7 @@ namespace EncTemplatesMgr
             var importPath = this.exportFilePath.Text;
             if (string.IsNullOrEmpty(importPath) || !File.Exists(importPath))
             {
-                MessageBox.Show("Import path is not valid.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Application.Current.MainWindow, "Import path is not valid.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
