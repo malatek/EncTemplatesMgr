@@ -92,7 +92,7 @@ namespace EncTemplatesMgr
             };
 
             templateExport.ExportTemplates(exportPath);
-            MessageBox.Show(Application.Current.MainWindow, "Template export complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Template export complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ButtonImportTemplates_Click(object sender, RoutedEventArgs e)
@@ -110,7 +110,7 @@ namespace EncTemplatesMgr
             var importPath = this.exportFilePath.Text;
             if (string.IsNullOrEmpty(importPath) || !File.Exists(importPath))
             {
-                MessageBox.Show(Application.Current.MainWindow, "Import path is not valid.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Import path is not valid.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -121,7 +121,7 @@ namespace EncTemplatesMgr
             };
 
             templateImport.ImportTemplates(importPath);
-            MessageBox.Show(Application.Current.MainWindow, "Template import complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Template import complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ButtonUpdateTemplates_Click(object sender, RoutedEventArgs e)
@@ -143,7 +143,7 @@ namespace EncTemplatesMgr
             { TemplateFilter = filter };
 
             templateUpdate.UpdateTemplates();
-            MessageBox.Show(Application.Current.MainWindow, "Template updates complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Template updates complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private Dictionary<string, string> FieldDataCollectionToDictionary(ObservableCollection<FieldData> fieldDataCollection)
