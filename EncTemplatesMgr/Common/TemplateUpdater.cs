@@ -2,6 +2,7 @@
 using EllieMae.EMLite.Common;
 using EllieMae.EMLite.DataEngine;
 using EncTemplatesMgr.Helpers;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -102,7 +103,7 @@ namespace EncTemplatesMgr.Common
 
                 try
                 {
-                    dataTemplate.SetField(kvp.Key, kvp.Value);
+                    dataTemplate.SetField(kvp.Key, kvp.Value ?? string.Empty);
                 }
                 catch (Exception ex)
                 {
