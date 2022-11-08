@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -58,6 +59,20 @@ namespace EncTemplatesMgr
             this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Loan Program", TemplateSettingsType.LoanProgram));
             this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Data Template", TemplateSettingsType.MiscData));
             this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Closing Cost", TemplateSettingsType.ClosingCost));
+        }
+
+        private void HyperlinkOpenDocumentation_Click(object sender, RoutedEventArgs e)
+        {
+            var tempFolder = System.IO.Path.GetTempPath();
+            var userGuidePath = System.IO.Path.Combine(tempFolder, "EncTemplatesMgr");
+            var userGuideFile = System.IO.Path.Combine(userGuidePath, "UserGuide.htm");
+            if (!File.Exists(userGuideFile))
+            {
+                Directory.CreateDirectory(userGuidePath);
+                File.WriteAllText(userGuideFile, Properties.Resources.UserGuide);
+            }
+
+            Process.Start(userGuideFile);
         }
 
         private void ExportFilePath_GotFocus(object sender, RoutedEventArgs e)
