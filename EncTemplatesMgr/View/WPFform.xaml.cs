@@ -63,8 +63,7 @@ namespace EncTemplatesMgr
 
         private void HyperlinkOpenDocumentation_Click(object sender, RoutedEventArgs e)
         {
-            var tempFolder = System.IO.Path.GetTempPath();
-            var userGuidePath = System.IO.Path.Combine(tempFolder, "EncTemplatesMgr");
+            var userGuidePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "EncTemplatesMgr");
             var userGuideFile = System.IO.Path.Combine(userGuidePath, "UserGuide.htm");
             if (!File.Exists(userGuideFile))
             {

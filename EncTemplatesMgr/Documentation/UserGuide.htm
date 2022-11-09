@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html style="background-Color:black; color:white;">
+<html style="background-Color:black; background-image: linear-gradient(to bottom right, #ff000025, black); color:lightgray;">
 <body>
-    <h1>Encompass Templates Manager</h1>
+    <h1 style="color: white;">Encompass Templates Manager</h1>
 
-    <h3>Installation</h3>
+    <h3 style="color: white;">Installation</h3>
     <ol>
         <li>Upload the Encompass Plugin through the Input Form Builder. For more information consult Encompass documentation.</li>
         <li>Relaunch Encompass and login with an account that has the "Super Administrator" persona.</li>
     </ol>
-    <h3>User Guide</h3>
+    <h3 style="color: white;">User Guide</h3>
     <ol>
         <li>Click "Encompass" in the menu bar and select “Enc Templates Mgr” from the dropdown.</li>
         <li>This will open the Template Manager window.</li>
         <li>Select a Template Type in the top dropdown. As of this writing, only Loan Programs, Data Templates, and Closing Cost Templates are supported.</li>
     </ol>
 
-    <h3>Filters</h3>
-        <p>Enter filter data. If filters are left blank, no templates will be included in the following actions.</p>
+    <h3 style="color: white;">Filters</h3>
+    <p>Enter filter data. If filters are left blank, no templates will be included in the following actions.</p>
+    <ol>
+        <li>The filters apply in order. 1st the File Path, 2nd the Template Name, and 3rd field values within the Template.</li>
+        <li>If a Template matches any filter value it will be included.</li>
+        <li>An * in either the File Path filter or Template Name filter will include ALL Templates.</li>
+        <li>To filter on field values in the Templates enter the Field ID in the left column and the expected value in the right column.</li>
         <ol>
-            <li>The filters apply in order. 1st the File Path, 2nd the Template Name, and 3rd field values within the Template.</li>
-            <li>If a Template matches any filter value it will be included.</li>
-            <li>An * in either the File Path filter or Template Name filter will include ALL Templates.</li>
-            <li>To filter on field values in the Templates enter the Field ID in the left column and the expected value in the right column.</li>
-            <ol>
-                <li>Click the Enter key to add additional rows.</li>
-                <li>Click the Delete button to remove rows.</li>
-                <li>Empty rows will be ignored.</li>
-                <li>For a template to be included all Fields entered must match.</li>
-            </ol>
+            <li>Click the Enter key to add additional rows.</li>
+            <li>Click the Delete button to remove rows.</li>
+            <li>Empty rows will be ignored.</li>
+            <li>For a template to be included all Fields entered must match.</li>
         </ol>
+    </ol>
 
-    <h3>Export Templates</h3>
+    <h3 style="color: white;">Export Templates</h3>
     <ol>
         <li>Templates can be exported for later import.</li>
         <li>Ensure you have a Filter applied.</li>
@@ -39,7 +39,7 @@
         <li>This operation can take some time depending on how many Templates are in the system.</li>
     </ol>
 
-    <h3>Import Templates</h3>
+    <h3 style="color: white;">Import Templates</h3>
     <ol>
         <li>Once you have a JSON file of exported Templates they can be imported into another Encompass instance.</li>
         <li>Ensure you have a Filter applied. Remember you can use * in either File Path or Template Name to include all.</li>
@@ -48,7 +48,7 @@
         <li>The file hierarchy will be replicated as well as the Templates.</li>
     </ol>
 
-    <h3>Update Templates</h3>
+    <h3 style="color: white;">Update Templates</h3>
     <ol>
         <li>Existing Templates can be bulk updated.</li>
         <li>Ensure you have a Filter applied.</li>
