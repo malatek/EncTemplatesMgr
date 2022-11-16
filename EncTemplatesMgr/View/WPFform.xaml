@@ -36,6 +36,9 @@
             <Label Foreground="White" FontWeight="Bold" FontSize="14" VerticalAlignment="Center">Template Type</Label>
             <ComboBox Name="templateType" Width="200" Height="25" Margin="20,0" ItemsSource="{Binding}"></ComboBox>
         </StackPanel>
+        <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10, 0">
+            <Hyperlink Click="HyperlinkOpenDocumentation_Click">User Guide</Hyperlink>
+        </TextBlock>
         <!--<Border Grid.Row="1" CornerRadius="10" BorderThickness="5" Grid.ColumnSpan="2" Grid.RowSpan="1">
             <Border.BorderBrush>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
