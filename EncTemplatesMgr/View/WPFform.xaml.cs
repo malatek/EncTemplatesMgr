@@ -43,12 +43,15 @@ namespace EncTemplatesMgr
         /// </summary>
         private readonly string _defaultFilePath = "C:\\temp\\export.json";
 
+        public ObservableCollection<FieldData> FieldData { get => this._fieldData; set => this._fieldData = value; }
+        public ObservableCollection<FieldData> FilterFieldData { get => this._filterFieldData; set => this._filterFieldData = value; }
+
         public MainWindow()
         {
             InitializeComponent();
             this.PopulateTemplateTypeCombobox();
-            this.fieldsAndValuesGrid.DataContext = _fieldData;
-            this.filterFieldsAndValuesGrid.DataContext = _filterFieldData;
+            this.fieldsAndValuesGrid.DataContext = FieldData;
+            this.filterFieldsAndValuesGrid.DataContext = FilterFieldData;
             this.exportFilePath.Text = this._defaultFilePath;
         }
 
@@ -96,7 +99,7 @@ namespace EncTemplatesMgr
             {
                 FilterFilePath = this.filePathContains.Text,
                 FilterTemplateName = this.templateNameContains.Text,
-                FilterFieldValues = this.FieldDataCollectionToDictionary(this._filterFieldData)
+                FilterFieldValues = this.FieldDataCollectionToDictionary(this.FilterFieldData)
             };
 
             var exportPath = this.CheckFilePath(this.exportFilePath.Text);
@@ -118,7 +121,7 @@ namespace EncTemplatesMgr
             {
                 FilterFilePath = this.filePathContains.Text,
                 FilterTemplateName = this.templateNameContains.Text,
-                FilterFieldValues = this.FieldDataCollectionToDictionary(this._filterFieldData)
+                FilterFieldValues = this.FieldDataCollectionToDictionary(this.FilterFieldData)
             };
 
             var importPath = this.exportFilePath.Text;
@@ -147,13 +150,13 @@ namespace EncTemplatesMgr
             {
                 FilterFilePath = this.filePathContains.Text,
                 FilterTemplateName = this.templateNameContains.Text,
-                FilterFieldValues = this.FieldDataCollectionToDictionary(this._filterFieldData)
+                FilterFieldValues = this.FieldDataCollectionToDictionary(this.FilterFieldData)
             };
 
             var templateUpdate = new TemplateUpdater(
                 (TemplateSettingsType)this.templateType.SelectedValue,
                 this.appendDescription.Text,
-                this.FieldDataCollectionToDictionary(this._fieldData))
+                this.FieldDataCollectionToDictionary(this.FieldData))
             { TemplateFilter = filter };
 
             templateUpdate.UpdateTemplates();
@@ -187,25 +190,6 @@ namespace EncTemplatesMgr
             }
 
             return path;
-        }
-
-        private void ResetUIData()
-        {
-            this.filePathContains.Text = string.Empty;
-            this.templateNameContains.Text = string.Empty;
-            this.appendDescription.Text = string.Empty;
-            this.exportFilePath.Text = string.Empty;
-            this.OverwriteExisting.IsChecked = false;
-        }
-
-        private void filterFieldsAndValuesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void fieldsAndValuesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }
