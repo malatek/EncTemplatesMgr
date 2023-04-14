@@ -129,6 +129,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\FieldData.cs" />
+    <Compile Include="View\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Codebase.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -142,6 +145,14 @@
     <None Include="View\App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ResourceDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\WPFform.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
