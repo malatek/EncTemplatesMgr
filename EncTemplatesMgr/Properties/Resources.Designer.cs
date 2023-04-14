@@ -62,18 +62,14 @@ namespace EncTemplatesMgr.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html style=&quot;background-Color:black; color:white;&quot;&gt;
+        ///&lt;html style=&quot;background-Color:black; background-image: linear-gradient(to bottom right, #ff000025, black); color:lightgray;&quot;&gt;
         ///&lt;body&gt;
-        ///    &lt;h1&gt;Encompass Templates Manager&lt;/h1&gt;
+        ///    &lt;h1 style=&quot;color: white;&quot;&gt;Encompass Templates Manager&lt;/h1&gt;
         ///
-        ///    &lt;h3&gt;Installation&lt;/h3&gt;
+        ///    &lt;h3 style=&quot;color: white;&quot;&gt;Installation&lt;/h3&gt;
         ///    &lt;ol&gt;
         ///        &lt;li&gt;Upload the Encompass Plugin through the Input Form Builder. For more information consult Encompass documentation.&lt;/li&gt;
-        ///        &lt;li&gt;Relaunch Encompass and login with an account that has the &quot;Super Administrator&quot; persona.&lt;/li&gt;
-        ///    &lt;/ol&gt;
-        ///    &lt;h3&gt;User Guide&lt;/h3&gt;
-        ///    &lt;ol&gt;
-        ///        &lt;li&gt;Click &quot;Encompass&quot; in the menu bar and select “Enc Templa [rest of string was truncated]&quot;;.
+        ///        &lt;li&gt;Relaunch Encompass and login with an account that has the &quot;Super Administrator&quot; persona.&lt;/l [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UserGuide {
             get {
