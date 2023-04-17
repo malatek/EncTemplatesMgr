@@ -136,6 +136,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="View\Plugin.cs" />
+    <Compile Include="View\ProgressBar.xaml.cs">
+      <DependentUpon>ProgressBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\WPFform.xaml.cs">
       <DependentUpon>WPFform.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,10 @@
     <Page Include="View\ResourceDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\WPFform.xaml">
       <Generator>MSBuild:Compile</Generator>
