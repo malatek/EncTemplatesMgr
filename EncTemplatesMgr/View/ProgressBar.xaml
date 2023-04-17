@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EncTemplatesMgr.View"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="600">
-    <Grid Background="#2b2b2b" Height="150" Width="600">
+             d:DesignHeight="150" d:DesignWidth="600"
+             Height="150" Width="600">
+    <Grid Background="#2b2b2b">
         <Label Foreground="LightGray" HorizontalAlignment="Center" Margin="0,20,0,0" FontWeight="Bold" FontSize="14">Updates In Progress</Label>
         <ProgressBar Minimum="0" Maximum="100" Name="pbStatus" Foreground="Red" Background="LightGray" HorizontalAlignment="Center" IsIndeterminate="True" Height="30" Width="500"/>
     </Grid>

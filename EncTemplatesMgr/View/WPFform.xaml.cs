@@ -136,12 +136,12 @@ namespace EncTemplatesMgr
                 TemplateFilter = filter
             };
 
-            // ToDo: refactor task and new window after getting it figured out
             ProgressBar = new View.ProgressBar();
             ProgressBar.ShowDialog();
             Task task = Task.Run(() => templateExport.ExportTemplates(exportPath));
             task.Wait();
             ProgressBar.Close();
+            // ToDo: replace or remove
             MessageBox.Show("Template export complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -170,7 +170,12 @@ namespace EncTemplatesMgr
                 OverwriteExisting = (bool)this.OverwriteExisting.IsChecked
             };
 
-            templateImport.ImportTemplates(importPath);
+            ProgressBar = new View.ProgressBar();
+            ProgressBar.ShowDialog();
+            Task task = Task.Run(() => templateImport.ImportTemplates(importPath));
+            task.Wait();
+            ProgressBar.Close();
+            // ToDo: replace or remove
             MessageBox.Show("Template import complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -192,7 +197,12 @@ namespace EncTemplatesMgr
                 this.FieldDataCollectionToDictionary(this.FieldData))
             { TemplateFilter = filter };
 
-            templateUpdate.UpdateTemplates();
+            ProgressBar = new View.ProgressBar();
+            ProgressBar.ShowDialog();
+            Task task = Task.Run(() => templateUpdate.UpdateTemplates());
+            task.Wait();
+            ProgressBar.Close();
+            // ToDo: replace or remove
             MessageBox.Show("Template updates complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
