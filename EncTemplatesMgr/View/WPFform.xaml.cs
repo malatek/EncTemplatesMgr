@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
@@ -43,6 +44,9 @@ namespace EncTemplatesMgr
         /// </summary>
         private readonly string _defaultFilePath = "C:\\temp\\export.json";
 
+        private Task TaskWorker;
+        private View.ProgressBar ProgressBar;
+
         public ObservableCollection<FieldData> FieldData { get => this._fieldData; set => this._fieldData = value; }
         public ObservableCollection<FieldData> FilterFieldData { get => this._filterFieldData; set => this._filterFieldData = value; }
 
@@ -53,6 +57,30 @@ namespace EncTemplatesMgr
             this.fieldsAndValuesGrid.DataContext = FieldData;
             this.filterFieldsAndValuesGrid.DataContext = FilterFieldData;
             this.exportFilePath.Text = this._defaultFilePath;
+            this.InitializeBackgroundWorker();
+        }
+
+        private void InitializeBackgroundWorker()
+        {
+            //this.TaskWorker = new Task();
+            //this.TaskWorker.DoWork += this.BackgroundWorker_DoWork;
+            //this.TaskWorker.RunWorkerCompleted += this.BackgroundWorker_RunWorkerCompleted;
+            //this.TaskWorker.ProgressChanged += this.BackgroundWorker_ProgressChanged;
+        }
+
+        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void PopulateTemplateTypeCombobox()
@@ -108,7 +136,12 @@ namespace EncTemplatesMgr
                 TemplateFilter = filter
             };
 
-            templateExport.ExportTemplates(exportPath);
+            // ToDo: refactor task and new window after getting it figured out
+            ProgressBar = new View.ProgressBar();
+            ProgressBar.ShowDialog();
+            Task task = Task.Run(() => templateExport.ExportTemplates(exportPath));
+            task.Wait();
+            ProgressBar.Close();
             MessageBox.Show("Template export complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
