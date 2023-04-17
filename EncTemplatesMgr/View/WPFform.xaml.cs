@@ -44,9 +44,6 @@ namespace EncTemplatesMgr
         /// </summary>
         private readonly string _defaultFilePath = "C:\\temp\\export.json";
 
-        private Task TaskWorker;
-        private View.ProgressBar ProgressBar;
-
         public ObservableCollection<FieldData> FieldData { get => this._fieldData; set => this._fieldData = value; }
         public ObservableCollection<FieldData> FilterFieldData { get => this._filterFieldData; set => this._filterFieldData = value; }
 
@@ -57,15 +54,6 @@ namespace EncTemplatesMgr
             this.fieldsAndValuesGrid.DataContext = FieldData;
             this.filterFieldsAndValuesGrid.DataContext = FilterFieldData;
             this.exportFilePath.Text = this._defaultFilePath;
-            this.InitializeBackgroundWorker();
-        }
-
-        private void InitializeBackgroundWorker()
-        {
-            //this.TaskWorker = new Task();
-            //this.TaskWorker.DoWork += this.BackgroundWorker_DoWork;
-            //this.TaskWorker.RunWorkerCompleted += this.BackgroundWorker_RunWorkerCompleted;
-            //this.TaskWorker.ProgressChanged += this.BackgroundWorker_ProgressChanged;
         }
 
         private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -136,11 +124,11 @@ namespace EncTemplatesMgr
                 TemplateFilter = filter
             };
 
-            ProgressBar = new View.ProgressBar();
-            ProgressBar.ShowDialog();
+            var progressBar = new View.ProgressBar();
+            progressBar.ShowDialog();
             Task task = Task.Run(() => templateExport.ExportTemplates(exportPath));
             task.Wait();
-            ProgressBar.Close();
+            progressBar.Close();
             // ToDo: replace or remove
             MessageBox.Show("Template export complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -170,11 +158,11 @@ namespace EncTemplatesMgr
                 OverwriteExisting = (bool)this.OverwriteExisting.IsChecked
             };
 
-            ProgressBar = new View.ProgressBar();
-            ProgressBar.ShowDialog();
+            var progressBar = new View.ProgressBar();
+            progressBar.ShowDialog();
             Task task = Task.Run(() => templateImport.ImportTemplates(importPath));
             task.Wait();
-            ProgressBar.Close();
+            progressBar.Close();
             // ToDo: replace or remove
             MessageBox.Show("Template import complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -197,11 +185,11 @@ namespace EncTemplatesMgr
                 this.FieldDataCollectionToDictionary(this.FieldData))
             { TemplateFilter = filter };
 
-            ProgressBar = new View.ProgressBar();
-            ProgressBar.ShowDialog();
+            var progressBar = new View.ProgressBar();
+            progressBar.ShowDialog();
             Task task = Task.Run(() => templateUpdate.UpdateTemplates());
             task.Wait();
-            ProgressBar.Close();
+            progressBar.Close();
             // ToDo: replace or remove
             MessageBox.Show("Template updates complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
         }
