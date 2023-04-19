@@ -56,21 +56,6 @@ namespace EncTemplatesMgr
             this.exportFilePath.Text = this._defaultFilePath;
         }
 
-        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void PopulateTemplateTypeCombobox()
         {
             this.templateType.DisplayMemberPath = "Key";
