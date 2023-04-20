@@ -106,7 +106,7 @@
             <CheckBox Foreground="White" Margin="12, 10, 0, 0" Name="OverwriteExisting">Overwrite existing templates.</CheckBox>
             <Button Style="{StaticResource CustomButtonStyle}" Content="Import Templates" Margin="10" Height="25" Width="200" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="ButtonImportTemplates_Click"/>
             <Label Foreground="White" Name="lblStatus" Margin="0,30,0,0" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center">In Progress... Please Wait</Label>
-            <ProgressBar Maximum="100" Name="pbStatus" Margin="15,0" Visibility="Visible" Foreground="Red" Background="LightGray" HorizontalAlignment="Center" IsIndeterminate="True" Height="30" Width="450"/>
+            <ProgressBar Maximum="100" Name="pbStatus" Margin="20,0" Visibility="Visible" Foreground="Red" Background="LightGray" HorizontalAlignment="Center" IsIndeterminate="True" Height="30" Width="450"/>
         </StackPanel>
         <Border Grid.Row="2" Grid.Column="1" CornerRadius="10" BorderThickness="5">
             <Border.BorderBrush>

@@ -47,21 +47,13 @@ namespace EncTemplatesMgr
         public MainWindow()
         {
             InitializeComponent();
-            lblStatus.Visibility = Visibility.Hidden;
             StopProgressBar();
             PopulateTemplateTypeCombobox();
+
+            lblStatus.Visibility = Visibility.Hidden;
             fieldsAndValuesGrid.DataContext = _fieldData;
             filterFieldsAndValuesGrid.DataContext = _filterFieldData;
             exportFilePath.Text = _defaultFilePath;
-        }
-
-        private void PopulateTemplateTypeCombobox()
-        {
-            templateType.DisplayMemberPath = "Key";
-            templateType.SelectedValuePath = "Value";
-            templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Loan Program", TemplateSettingsType.LoanProgram));
-            templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Data Template", TemplateSettingsType.MiscData));
-            templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Closing Cost", TemplateSettingsType.ClosingCost));
         }
 
         private void HyperlinkOpenDocumentation_Click(object sender, RoutedEventArgs e)
@@ -108,25 +100,9 @@ namespace EncTemplatesMgr
                 TemplateFilter = filter
             };
 
-            // showing progress bar as modal blocks task from running.
             StartProgressBar();
             await Task.Run(() => templateExport.ExportTemplates(exportPath));
             StopProgressBar();
-        }
-
-        private void StopProgressBar()
-        {
-            lblStatus.Content = "Operation Complete";
-            pbStatus.Visibility = Visibility.Hidden;
-            this.IsEnabled = true;
-        }
-
-        private void StartProgressBar()
-        {
-            this.IsEnabled = false;
-            lblStatus.Content = "In Progress... Please Wait";
-            lblStatus.Visibility = Visibility.Visible;
-            pbStatus.Visibility = Visibility.Visible;
         }
 
         private async void ButtonImportTemplates_Click(object sender, RoutedEventArgs e)
@@ -182,6 +158,30 @@ namespace EncTemplatesMgr
             StopProgressBar();
         }
 
+        private void PopulateTemplateTypeCombobox()
+        {
+            templateType.DisplayMemberPath = "Key";
+            templateType.SelectedValuePath = "Value";
+            templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Loan Program", TemplateSettingsType.LoanProgram));
+            templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Data Template", TemplateSettingsType.MiscData));
+            templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Closing Cost", TemplateSettingsType.ClosingCost));
+        }
+
+        private void StopProgressBar()
+        {
+            lblStatus.Content = "Operation Complete";
+            pbStatus.Visibility = Visibility.Hidden;
+            this.IsEnabled = true;
+        }
+
+        private void StartProgressBar()
+        {
+            this.IsEnabled = false;
+            lblStatus.Content = "In Progress... Please Wait";
+            lblStatus.Visibility = Visibility.Visible;
+            pbStatus.Visibility = Visibility.Visible;
+        }
+
         private Dictionary<string, string> FieldDataCollectionToDictionary(ObservableCollection<FieldData> fieldDataCollection)
         {
             var dictionary = new Dictionary<string, string>();
@@ -207,6 +207,9 @@ namespace EncTemplatesMgr
                 path = _defaultFilePath;
                 exportFilePath.Text = path;
             }
+
+            if (!path.EndsWith(".json"))
+                path += ".json";
 
             return path;
         }
