@@ -44,25 +44,24 @@ namespace EncTemplatesMgr
         /// </summary>
         private readonly string _defaultFilePath = "C:\\temp\\export.json";
 
-        public ObservableCollection<FieldData> FieldData { get => this._fieldData; set => this._fieldData = value; }
-        public ObservableCollection<FieldData> FilterFieldData { get => this._filterFieldData; set => this._filterFieldData = value; }
-
         public MainWindow()
         {
             InitializeComponent();
-            this.PopulateTemplateTypeCombobox();
-            this.fieldsAndValuesGrid.DataContext = FieldData;
-            this.filterFieldsAndValuesGrid.DataContext = FilterFieldData;
-            this.exportFilePath.Text = this._defaultFilePath;
+            lblStatus.Visibility = Visibility.Hidden;
+            StopProgressBar();
+            PopulateTemplateTypeCombobox();
+            fieldsAndValuesGrid.DataContext = _fieldData;
+            filterFieldsAndValuesGrid.DataContext = _filterFieldData;
+            exportFilePath.Text = _defaultFilePath;
         }
 
         private void PopulateTemplateTypeCombobox()
         {
-            this.templateType.DisplayMemberPath = "Key";
-            this.templateType.SelectedValuePath = "Value";
-            this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Loan Program", TemplateSettingsType.LoanProgram));
-            this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Data Template", TemplateSettingsType.MiscData));
-            this.templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Closing Cost", TemplateSettingsType.ClosingCost));
+            templateType.DisplayMemberPath = "Key";
+            templateType.SelectedValuePath = "Value";
+            templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Loan Program", TemplateSettingsType.LoanProgram));
+            templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Data Template", TemplateSettingsType.MiscData));
+            templateType.Items.Add(new KeyValuePair<string, TemplateSettingsType?>("Closing Cost", TemplateSettingsType.ClosingCost));
         }
 
         private void HyperlinkOpenDocumentation_Click(object sender, RoutedEventArgs e)
@@ -80,57 +79,69 @@ namespace EncTemplatesMgr
 
         private void ExportFilePath_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (this.exportFilePath.Text == this._defaultFilePath)
-                this.exportFilePath.Text = string.Empty;
+            if (exportFilePath.Text == _defaultFilePath)
+                exportFilePath.Text = string.Empty;
         }
 
         private void ButtonFilePicker_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
             if ((bool)openFileDialog.ShowDialog())
-                this.exportFilePath.Text = openFileDialog.FileName;
+                exportFilePath.Text = openFileDialog.FileName;
         }
 
-        private void ButtonExportTemplates_Click(object sender, RoutedEventArgs e)
+        private async void ButtonExportTemplates_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(this.templateType.Text))
+            if (string.IsNullOrEmpty(templateType.Text))
                 return;
 
             var filter = new Filter()
             {
-                FilterFilePath = this.filePathContains.Text,
-                FilterTemplateName = this.templateNameContains.Text,
-                FilterFieldValues = this.FieldDataCollectionToDictionary(this.FilterFieldData)
+                FilterFilePath = filePathContains.Text,
+                FilterTemplateName = templateNameContains.Text,
+                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData)
             };
 
-            var exportPath = this.CheckFilePath(this.exportFilePath.Text);
-            var templateExport = new TemplateExporter((TemplateSettingsType)this.templateType.SelectedValue)
+            var exportPath = CheckFilePath(exportFilePath.Text);
+            var templateExport = new TemplateExporter((TemplateSettingsType)templateType.SelectedValue)
             {
                 TemplateFilter = filter
             };
 
-            var progressBar = new View.ProgressBar();
-            progressBar.ShowDialog();
-            Task task = Task.Run(() => templateExport.ExportTemplates(exportPath));
-            task.Wait();
-            progressBar.Close();
-            // ToDo: replace or remove
-            MessageBox.Show("Template export complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
+            // showing progress bar as modal blocks task from running.
+            StartProgressBar();
+            await Task.Run(() => templateExport.ExportTemplates(exportPath));
+            StopProgressBar();
         }
 
-        private void ButtonImportTemplates_Click(object sender, RoutedEventArgs e)
+        private void StopProgressBar()
         {
-            if (string.IsNullOrEmpty(this.templateType.Text))
+            lblStatus.Content = "Operation Complete";
+            pbStatus.Visibility = Visibility.Hidden;
+            this.IsEnabled = true;
+        }
+
+        private void StartProgressBar()
+        {
+            this.IsEnabled = false;
+            lblStatus.Content = "In Progress... Please Wait";
+            lblStatus.Visibility = Visibility.Visible;
+            pbStatus.Visibility = Visibility.Visible;
+        }
+
+        private async void ButtonImportTemplates_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(templateType.Text))
                 return;
 
             var filter = new Filter()
             {
-                FilterFilePath = this.filePathContains.Text,
-                FilterTemplateName = this.templateNameContains.Text,
-                FilterFieldValues = this.FieldDataCollectionToDictionary(this.FilterFieldData)
+                FilterFilePath = filePathContains.Text,
+                FilterTemplateName = templateNameContains.Text,
+                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData)
             };
 
-            var importPath = this.exportFilePath.Text;
+            var importPath = exportFilePath.Text;
             if (string.IsNullOrEmpty(importPath) || !File.Exists(importPath))
             {
                 MessageBox.Show("Import path is not valid.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -140,43 +151,35 @@ namespace EncTemplatesMgr
             var templateImport = new TemplateImporter((TemplateSettingsType)templateType.SelectedValue)
             {
                 TemplateFilter = filter,
-                OverwriteExisting = (bool)this.OverwriteExisting.IsChecked
+                OverwriteExisting = (bool)OverwriteExisting.IsChecked
             };
 
-            var progressBar = new View.ProgressBar();
-            progressBar.ShowDialog();
-            Task task = Task.Run(() => templateImport.ImportTemplates(importPath));
-            task.Wait();
-            progressBar.Close();
-            // ToDo: replace or remove
-            MessageBox.Show("Template import complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
+            StartProgressBar();
+            await Task.Run(() => templateImport.ImportTemplates(importPath));
+            StopProgressBar();
         }
 
-        private void ButtonUpdateTemplates_Click(object sender, RoutedEventArgs e)
+        private async void ButtonUpdateTemplates_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(this.templateType.Text))
+            if (string.IsNullOrEmpty(templateType.Text))
                 return;
 
             var filter = new Filter()
             {
-                FilterFilePath = this.filePathContains.Text,
-                FilterTemplateName = this.templateNameContains.Text,
-                FilterFieldValues = this.FieldDataCollectionToDictionary(this.FilterFieldData)
+                FilterFilePath = filePathContains.Text,
+                FilterTemplateName = templateNameContains.Text,
+                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData)
             };
 
             var templateUpdate = new TemplateUpdater(
-                (TemplateSettingsType)this.templateType.SelectedValue,
-                this.appendDescription.Text,
-                this.FieldDataCollectionToDictionary(this.FieldData))
+                (TemplateSettingsType)templateType.SelectedValue,
+                appendDescription.Text,
+                FieldDataCollectionToDictionary(_fieldData))
             { TemplateFilter = filter };
 
-            var progressBar = new View.ProgressBar();
-            progressBar.ShowDialog();
-            Task task = Task.Run(() => templateUpdate.UpdateTemplates());
-            task.Wait();
-            progressBar.Close();
-            // ToDo: replace or remove
-            MessageBox.Show("Template updates complete.", "Encompass Templates Manager", MessageBoxButton.OK, MessageBoxImage.Information);
+            StartProgressBar();
+            await Task.Run(() => templateUpdate.UpdateTemplates());
+            StopProgressBar();
         }
 
         private Dictionary<string, string> FieldDataCollectionToDictionary(ObservableCollection<FieldData> fieldDataCollection)
@@ -202,7 +205,7 @@ namespace EncTemplatesMgr
             if (string.IsNullOrEmpty(path))
             {
                 path = _defaultFilePath;
-                this.exportFilePath.Text = path;
+                exportFilePath.Text = path;
             }
 
             return path;
