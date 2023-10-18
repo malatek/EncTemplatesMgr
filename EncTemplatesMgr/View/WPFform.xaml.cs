@@ -90,8 +90,12 @@ namespace EncTemplatesMgr
             var filter = new Filter()
             {
                 FilterFilePath = filePathContains.Text,
+                FilePathRequired = (bool)filePathMustMatch.IsChecked,
                 FilterTemplateName = templateNameContains.Text,
-                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData)
+                TemplateNameRequired = (bool)templateNameMustMatch.IsChecked,
+                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData),
+                FieldValuesRequired = (bool)fieldValuesMustMatch.IsChecked,
+                AllFieldValuesRequired = (bool)allFieldValuesMustMatch.IsChecked
             };
 
             var exportPath = CheckFilePath(exportFilePath.Text);
@@ -113,8 +117,12 @@ namespace EncTemplatesMgr
             var filter = new Filter()
             {
                 FilterFilePath = filePathContains.Text,
+                FilePathRequired = (bool)filePathMustMatch.IsChecked,
                 FilterTemplateName = templateNameContains.Text,
-                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData)
+                TemplateNameRequired = (bool)templateNameMustMatch.IsChecked,
+                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData),
+                FieldValuesRequired = (bool)fieldValuesMustMatch.IsChecked,
+                AllFieldValuesRequired = (bool)allFieldValuesMustMatch.IsChecked
             };
 
             var importPath = exportFilePath.Text;
@@ -143,8 +151,12 @@ namespace EncTemplatesMgr
             var filter = new Filter()
             {
                 FilterFilePath = filePathContains.Text,
+                FilePathRequired = (bool)filePathMustMatch.IsChecked,
                 FilterTemplateName = templateNameContains.Text,
-                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData)
+                TemplateNameRequired = (bool)templateNameMustMatch.IsChecked,
+                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData),
+                FieldValuesRequired = (bool)fieldValuesMustMatch.IsChecked,
+                AllFieldValuesRequired = (bool)allFieldValuesMustMatch.IsChecked
             };
 
             var templateUpdate = new TemplateUpdater(
