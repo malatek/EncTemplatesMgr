@@ -50,21 +50,23 @@
             <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
             <StackPanel>
                 <Label Foreground="White" Margin="0,0,0,10" FontWeight="Bold" FontSize="14">Template Filters</Label>
-                <Label Foreground="LightGray">If either matches template will be updated. Blank entries are ignored.</Label>
-                <Label Foreground="LightGray">An * in either will select all.</Label>
-                <StackPanel Orientation="Horizontal">
+                    <Label Foreground="LightGray">Blank entries are ignored.</Label>
+                    <StackPanel Orientation="Horizontal">
                     <Label Foreground="LightGray" Width="150">File Path Contains</Label>
                     <TextBox Name="filePathContains" Width="200" Height="20"></TextBox>
+                    <CheckBox Name="filePathMustMatch" Foreground="LightGray" Margin="3,5,0,0">Must Match</CheckBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Foreground="LightGray" Width="150">Template Name Contains</Label>
                     <TextBox Name="templateNameContains" Width="200" Height="20"></TextBox>
+                    <CheckBox Name="templateNameMustMatch" Foreground="LightGray" Margin="3,5,0,0">Must Match</CheckBox>
                 </StackPanel>
             </StackPanel>
             <StackPanel Margin="20,0,0,0">
-                <Label Foreground="White">Filter on field values in the templates. Ignored if a match is found in File Path or Template Name.</Label>
-                <Label Foreground="LightGray">All values must match for template to be included.</Label>
-                <DataGrid x:Name="filterFieldsAndValuesGrid" Height="220" Width="400" Margin="10,0" HorizontalAlignment="Left" Background="Gray" ItemsSource="{Binding}" AutoGenerateColumns="False">
+                    <Label Foreground="White">Filter on field values in the templates.</Label>
+                    <CheckBox Name="fieldValuesMustMatch" Foreground="LightGray" Margin="10,0,0,3">This section must have a match.</CheckBox>
+                    <CheckBox Name="allFieldValuesMustMatch" Foreground="LightGray" Margin="10,0,0,5">All Field IDs and Values must match.</CheckBox>
+                    <DataGrid x:Name="filterFieldsAndValuesGrid" Height="220" Width="400" Margin="10,0" HorizontalAlignment="Left" Background="Gray" ItemsSource="{Binding}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Field ID" Binding="{Binding Path=FieldId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100*"/>
                         <DataGridTextColumn Header="Value" Binding="{Binding Path=FieldValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100*"/>
@@ -128,7 +130,6 @@
             <StackPanel>
                 <Label Foreground="White" FontWeight="Bold" FontSize="14">Update Template Fields</Label>
                 <Label Foreground="LightGray">Description to append to the top of the current template description.</Label>
-                <Label Foreground="LightGray" Margin="0,0,0,8">If left blank no description will be added.</Label>
                 <TextBox Name="appendDescription" Width="300" Height="25" Margin="10,0" HorizontalAlignment="Left"/>
                 <Label Foreground="LightGray" Margin="0,20,0,0">Fields to update and values to update them to.</Label>
                 <DataGrid x:Name="fieldsAndValuesGrid"  Height="220" Width="400" Margin="10,0" HorizontalAlignment="Left" Background="Gray" ItemsSource="{Binding}" AutoGenerateColumns="False">
