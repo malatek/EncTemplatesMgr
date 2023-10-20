@@ -11,23 +11,59 @@ namespace EncTemplatesMgr.ViewModel
     internal class FilterData : INotifyPropertyChanged
     {
         //todo: replace the filter properties in WPFform.xaml.cs with this
+        /// <summary>
+        /// Include all templates in filter regardless of other filter settings.
+        /// </summary>
         public bool IncludeAllTemplates { get; set; }
+
+        /// <summary>
+        /// File path to filter on.
+        /// </summary>
         public string FilterFilePath { get; set; }
+
+        /// <summary>
+        /// File path must match to be included in results.
+        /// </summary>
         public bool FilePathRequired { get; set; }
+
+        /// <summary>
+        /// Template name to filter on.
+        /// </summary>
         public string FilterTemplateName { get; set; }
+
+        /// <summary>
+        /// Template name must match to be included in results.
+        /// </summary>
         public bool TemplateNameRequired { get; set; }
-        private ObservableCollection<FieldData> _filterFieldData = new ObservableCollection<FieldData>(new List<FieldData>());
-        public Dictionary<string, string> FilterFieldValues 
-        { 
-            get
-            {
-                return Helpers.TypeConverters.FieldDataCollectionToDictionary(_filterFieldData);
-            }
-        }
+
+        /// <summary>
+        /// Field values must have a match to be included in results.
+        /// </summary>
         public bool FieldValuesRequired { get; set; }
+
+        /// <summary>
+        /// All field values must have a match to be included in results.
+        /// </summary>
         public bool AllFieldValuesRequired { get; set; }
 
+        /// <summary>
+        /// Field IDs and values to filter on.
+        /// </summary>
+        public ObservableCollection<FieldData> FilterFieldData = new ObservableCollection<FieldData>(new List<FieldData>());
+
+        /// <summary>
+        /// Get FilterFIeldData as a Dictionary.
+        /// </summary>
+        public Dictionary<string, string> FilterFieldValues
+        {
+            get
+            {
+                return Helpers.TypeConverters.FieldDataCollectionToDictionary(FilterFieldData);
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         void OnPropertyChanged(string property)
         {
             if (this.PropertyChanged != null)
