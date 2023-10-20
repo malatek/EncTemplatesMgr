@@ -50,7 +50,7 @@
             <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
             <StackPanel>
                 <Label Foreground="White" Margin="0,0,0,10" FontWeight="Bold" FontSize="14">Template Filters</Label>
-                    <Label Foreground="LightGray">Blank entries are ignored.</Label>
+                    <CheckBox Name="selectAllTemplates" Foreground="LightGray" Margin="10,0,0,5" Checked="ChkboxSelectAll_Click" Unchecked="ChkboxSelectAll_Click">Select All Templates</CheckBox>
                     <StackPanel Orientation="Horizontal">
                     <Label Foreground="LightGray" Width="150">File Path Contains</Label>
                     <TextBox Name="filePathContains" Width="200" Height="20"></TextBox>

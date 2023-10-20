@@ -69,6 +69,27 @@ namespace EncTemplatesMgr
             Process.Start(userGuideFile);
         }
 
+        private void ChkboxSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            var isEnabled = true;
+            if ((bool)selectAllTemplates.IsChecked)
+            {
+                isEnabled = false;
+            }
+            else
+            {
+                isEnabled = true;
+            }
+
+            templateNameContains.IsEnabled = isEnabled;
+            templateNameMustMatch.IsEnabled = isEnabled;
+            filePathContains.IsEnabled = isEnabled;
+            filePathMustMatch.IsEnabled = isEnabled;
+            fieldValuesMustMatch.IsEnabled = isEnabled;
+            allFieldValuesMustMatch.IsEnabled = isEnabled;
+            filterFieldsAndValuesGrid.IsEnabled = isEnabled;
+        }
+
         private void ExportFilePath_GotFocus(object sender, RoutedEventArgs e)
         {
             if (exportFilePath.Text == _defaultFilePath)
@@ -89,6 +110,7 @@ namespace EncTemplatesMgr
 
             var filter = new Filter()
             {
+                IncludeAllTemplates = (bool)selectAllTemplates.IsChecked,
                 FilterFilePath = filePathContains.Text,
                 FilePathRequired = (bool)filePathMustMatch.IsChecked,
                 FilterTemplateName = templateNameContains.Text,
@@ -116,6 +138,7 @@ namespace EncTemplatesMgr
 
             var filter = new Filter()
             {
+                IncludeAllTemplates = (bool)selectAllTemplates.IsChecked,
                 FilterFilePath = filePathContains.Text,
                 FilePathRequired = (bool)filePathMustMatch.IsChecked,
                 FilterTemplateName = templateNameContains.Text,
@@ -150,6 +173,7 @@ namespace EncTemplatesMgr
 
             var filter = new Filter()
             {
+                IncludeAllTemplates = (bool)selectAllTemplates.IsChecked,
                 FilterFilePath = filePathContains.Text,
                 FilePathRequired = (bool)filePathMustMatch.IsChecked,
                 FilterTemplateName = templateNameContains.Text,
