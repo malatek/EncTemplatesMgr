@@ -1,6 +1,7 @@
 ﻿using EllieMae.EMLite.ClientServer;
 using EncTemplatesMgr.Common;
 using EncTemplatesMgr.ViewModel;
+using EncTemplatesMgr.Helpers;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -115,7 +116,7 @@ namespace EncTemplatesMgr
                 FilePathRequired = (bool)filePathMustMatch.IsChecked,
                 FilterTemplateName = templateNameContains.Text,
                 TemplateNameRequired = (bool)templateNameMustMatch.IsChecked,
-                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData),
+                FilterFieldValues = TypeConverters.FieldDataCollectionToDictionary(_filterFieldData),
                 FieldValuesRequired = (bool)fieldValuesMustMatch.IsChecked,
                 AllFieldValuesRequired = (bool)allFieldValuesMustMatch.IsChecked
             };
@@ -143,7 +144,7 @@ namespace EncTemplatesMgr
                 FilePathRequired = (bool)filePathMustMatch.IsChecked,
                 FilterTemplateName = templateNameContains.Text,
                 TemplateNameRequired = (bool)templateNameMustMatch.IsChecked,
-                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData),
+                FilterFieldValues = TypeConverters.FieldDataCollectionToDictionary(_filterFieldData),
                 FieldValuesRequired = (bool)fieldValuesMustMatch.IsChecked,
                 AllFieldValuesRequired = (bool)allFieldValuesMustMatch.IsChecked
             };
@@ -178,7 +179,7 @@ namespace EncTemplatesMgr
                 FilePathRequired = (bool)filePathMustMatch.IsChecked,
                 FilterTemplateName = templateNameContains.Text,
                 TemplateNameRequired = (bool)templateNameMustMatch.IsChecked,
-                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData),
+                FilterFieldValues = TypeConverters.FieldDataCollectionToDictionary(_filterFieldData),
                 FieldValuesRequired = (bool)fieldValuesMustMatch.IsChecked,
                 AllFieldValuesRequired = (bool)allFieldValuesMustMatch.IsChecked
             };
@@ -186,7 +187,7 @@ namespace EncTemplatesMgr
             var templateUpdate = new TemplateUpdater(
                 (TemplateSettingsType)templateType.SelectedValue,
                 appendDescription.Text,
-                FieldDataCollectionToDictionary(_fieldData))
+                TypeConverters.FieldDataCollectionToDictionary(_fieldData))
             { TemplateFilter = filter };
 
             StartProgressBar();
@@ -216,24 +217,6 @@ namespace EncTemplatesMgr
             lblStatus.Content = "In Progress... Please Wait";
             lblStatus.Visibility = Visibility.Visible;
             pbStatus.Visibility = Visibility.Visible;
-        }
-
-        private Dictionary<string, string> FieldDataCollectionToDictionary(ObservableCollection<FieldData> fieldDataCollection)
-        {
-            var dictionary = new Dictionary<string, string>();
-
-            if (fieldDataCollection == null)
-                return dictionary;
-
-            foreach (var item in fieldDataCollection)
-            {
-                if(string.IsNullOrEmpty(item.FieldId))
-                    continue;
-
-                dictionary.Add(item.FieldId, item.FieldValue);
-            }
-            
-            return dictionary;
         }
 
         private string CheckFilePath(string path)

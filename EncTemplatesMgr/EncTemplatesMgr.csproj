@@ -116,6 +116,7 @@
     <Compile Include="Common\TemplateImporter.cs" />
     <Compile Include="Helpers\ConfigManager.cs" />
     <Compile Include="Common\Filter.cs" />
+    <Compile Include="Helpers\TypeConverters.cs" />
     <Compile Include="Interfaces\ICustomTemplate.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Models\CustomClosingCostTemplate.cs" />
