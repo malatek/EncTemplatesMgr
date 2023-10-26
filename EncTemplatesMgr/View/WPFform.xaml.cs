@@ -72,23 +72,13 @@ namespace EncTemplatesMgr
 
         private void ChkboxSelectAll_Click(object sender, RoutedEventArgs e)
         {
-            var isEnabled = true;
-            if ((bool)selectAllTemplates.IsChecked)
-            {
-                isEnabled = false;
-            }
-            else
-            {
-                isEnabled = true;
-            }
-
-            templateNameContains.IsEnabled = isEnabled;
-            templateNameMustMatch.IsEnabled = isEnabled;
-            filePathContains.IsEnabled = isEnabled;
-            filePathMustMatch.IsEnabled = isEnabled;
-            fieldValuesMustMatch.IsEnabled = isEnabled;
-            allFieldValuesMustMatch.IsEnabled = isEnabled;
-            filterFieldsAndValuesGrid.IsEnabled = isEnabled;
+            templateNameContains.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            templateNameMustMatch.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            filePathContains.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            filePathMustMatch.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            fieldValuesMustMatch.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            allFieldValuesMustMatch.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            filterFieldsAndValuesGrid.IsEnabled = !(bool)selectAllTemplates.IsChecked;
         }
 
         private void ExportFilePath_GotFocus(object sender, RoutedEventArgs e)

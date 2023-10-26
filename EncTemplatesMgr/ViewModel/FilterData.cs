@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EncTemplatesMgr.ViewModel
 {
-    internal class FilterData : INotifyPropertyChanged
+    public class FilterData : INotifyPropertyChanged
     {
         //todo: replace the filter properties in WPFform.xaml.cs with this
         /// <summary>
@@ -52,7 +52,7 @@ namespace EncTemplatesMgr.ViewModel
         public ObservableCollection<FieldData> FilterFieldData = new ObservableCollection<FieldData>(new List<FieldData>());
 
         /// <summary>
-        /// Get FilterFIeldData as a Dictionary.
+        /// Get FilterFieldData as a Dictionary.
         /// </summary>
         public Dictionary<string, string> FilterFieldValues
         {
