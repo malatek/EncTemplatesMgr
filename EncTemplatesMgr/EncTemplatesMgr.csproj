@@ -115,7 +115,8 @@
     <Compile Include="Common\TemplateExporter.cs" />
     <Compile Include="Common\TemplateImporter.cs" />
     <Compile Include="Helpers\ConfigManager.cs" />
-    <Compile Include="Common\Filter.cs" />
+    <Compile Include="Models\Filter.cs" />
+    <Compile Include="Helpers\TypeConverters.cs" />
     <Compile Include="Interfaces\ICustomTemplate.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Models\CustomClosingCostTemplate.cs" />
@@ -129,6 +130,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\FieldData.cs" />
+    <Compile Include="ViewModel\FilterData.cs" />
     <Compile Include="View\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>

@@ -1,26 +1,14 @@
 ﻿using EllieMae.EMLite.ClientServer;
 using EncTemplatesMgr.Common;
+using EncTemplatesMgr.Helpers;
 using EncTemplatesMgr.ViewModel;
 using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EncTemplatesMgr
 {
@@ -32,12 +20,17 @@ namespace EncTemplatesMgr
         /// <summary>
         /// Fields to update and data to update them with.
         /// </summary>
-        private ObservableCollection<FieldData> _fieldData = new ObservableCollection<FieldData>(new List<FieldData>());
+        private ObservableCollection<FieldData> FieldData = new ObservableCollection<FieldData>(new List<FieldData>());
 
         /// <summary>
         /// Only update the template if it has the given fields with the given data.
         /// </summary>
-        private ObservableCollection<FieldData> _filterFieldData = new ObservableCollection<FieldData>(new List<FieldData>());
+        //private ObservableCollection<FieldData> _filterFieldData = new ObservableCollection<FieldData>(new List<FieldData>());
+
+        /// <summary>
+        /// Filter View Model
+        /// </summary>
+        private FilterData FilterData = new FilterData();
 
         /// <summary>
         /// Default import/export path.
@@ -51,8 +44,9 @@ namespace EncTemplatesMgr
             PopulateTemplateTypeCombobox();
 
             lblStatus.Visibility = Visibility.Hidden;
-            fieldsAndValuesGrid.DataContext = _fieldData;
-            filterFieldsAndValuesGrid.DataContext = _filterFieldData;
+            fieldsAndValuesGrid.DataContext = FieldData;
+            //filterFieldsAndValuesGrid.DataContext = FilterData.FilterFieldData;
+            FilterStackPanel.DataContext = FilterData;
             exportFilePath.Text = _defaultFilePath;
         }
 
@@ -67,6 +61,17 @@ namespace EncTemplatesMgr
             }
 
             Process.Start(userGuideFile);
+        }
+
+        private void ChkboxSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            templateNameContains.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            templateNameMustMatch.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            filePathContains.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            filePathMustMatch.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            fieldValuesMustMatch.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            allFieldValuesMustMatch.IsEnabled = !(bool)selectAllTemplates.IsChecked;
+            filterFieldsAndValuesGrid.IsEnabled = !(bool)selectAllTemplates.IsChecked;
         }
 
         private void ExportFilePath_GotFocus(object sender, RoutedEventArgs e)
@@ -87,17 +92,10 @@ namespace EncTemplatesMgr
             if (string.IsNullOrEmpty(templateType.Text))
                 return;
 
-            var filter = new Filter()
-            {
-                FilterFilePath = filePathContains.Text,
-                FilterTemplateName = templateNameContains.Text,
-                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData)
-            };
-
             var exportPath = CheckFilePath(exportFilePath.Text);
             var templateExport = new TemplateExporter((TemplateSettingsType)templateType.SelectedValue)
             {
-                TemplateFilter = filter
+                TemplateFilter = FilterData.ToFilter()
             };
 
             StartProgressBar();
@@ -110,13 +108,6 @@ namespace EncTemplatesMgr
             if (string.IsNullOrEmpty(templateType.Text))
                 return;
 
-            var filter = new Filter()
-            {
-                FilterFilePath = filePathContains.Text,
-                FilterTemplateName = templateNameContains.Text,
-                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData)
-            };
-
             var importPath = exportFilePath.Text;
             if (string.IsNullOrEmpty(importPath) || !File.Exists(importPath))
             {
@@ -126,7 +117,7 @@ namespace EncTemplatesMgr
 
             var templateImport = new TemplateImporter((TemplateSettingsType)templateType.SelectedValue)
             {
-                TemplateFilter = filter,
+                TemplateFilter = FilterData.ToFilter(),
                 OverwriteExisting = (bool)OverwriteExisting.IsChecked
             };
 
@@ -140,18 +131,11 @@ namespace EncTemplatesMgr
             if (string.IsNullOrEmpty(templateType.Text))
                 return;
 
-            var filter = new Filter()
-            {
-                FilterFilePath = filePathContains.Text,
-                FilterTemplateName = templateNameContains.Text,
-                FilterFieldValues = FieldDataCollectionToDictionary(_filterFieldData)
-            };
-
             var templateUpdate = new TemplateUpdater(
                 (TemplateSettingsType)templateType.SelectedValue,
                 appendDescription.Text,
-                FieldDataCollectionToDictionary(_fieldData))
-            { TemplateFilter = filter };
+                TypeConverters.FieldDataCollectionToDictionary(FieldData))
+            { TemplateFilter = FilterData.ToFilter() };
 
             StartProgressBar();
             await Task.Run(() => templateUpdate.UpdateTemplates());
@@ -180,24 +164,6 @@ namespace EncTemplatesMgr
             lblStatus.Content = "In Progress... Please Wait";
             lblStatus.Visibility = Visibility.Visible;
             pbStatus.Visibility = Visibility.Visible;
-        }
-
-        private Dictionary<string, string> FieldDataCollectionToDictionary(ObservableCollection<FieldData> fieldDataCollection)
-        {
-            var dictionary = new Dictionary<string, string>();
-
-            if (fieldDataCollection == null)
-                return dictionary;
-
-            foreach (var item in fieldDataCollection)
-            {
-                if(string.IsNullOrEmpty(item.FieldId))
-                    continue;
-
-                dictionary.Add(item.FieldId, item.FieldValue);
-            }
-            
-            return dictionary;
         }
 
         private string CheckFilePath(string path)
