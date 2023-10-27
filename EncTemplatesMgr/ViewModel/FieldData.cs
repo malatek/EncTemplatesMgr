@@ -15,7 +15,8 @@ namespace EncTemplatesMgr.ViewModel
         public string FieldValue { get; set; }
 
         public FieldData()
-        {
+        {
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

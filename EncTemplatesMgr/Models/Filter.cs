@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Media.Animation;
 
-namespace EncTemplatesMgr.Common
+namespace EncTemplatesMgr.Models
 {
     public class Filter
     {
