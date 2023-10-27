@@ -1,12 +1,8 @@
 ﻿using EncTemplatesMgr.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EncTemplatesMgr.ViewModel
 {
@@ -32,7 +28,13 @@ namespace EncTemplatesMgr.ViewModel
         /// </summary>
         public string FilterFilePath 
         { 
-            get => _filterFilePath; 
+            get
+            {
+                if (string.IsNullOrEmpty(_filterFilePath))
+                    _filterFilePath = string.Empty;
+
+                return _filterFilePath;
+            }
             set
             {
                 _filterFilePath = value;
@@ -60,7 +62,13 @@ namespace EncTemplatesMgr.ViewModel
         /// </summary>
         public string FilterTemplateName 
         { 
-            get => _filterTemplateName; 
+            get
+            {
+                if (string.IsNullOrEmpty(_filterTemplateName))
+                    _filterTemplateName = string.Empty;
+
+                return _filterTemplateName;
+            }
             set
             {
                 _filterTemplateName = value;
@@ -110,10 +118,35 @@ namespace EncTemplatesMgr.ViewModel
             }
         }
 
+        private ObservableCollection<FieldData> _filterFieldData;
+
+        public FilterData(bool filePathRequired = true, bool templateNameRequired = true,
+            bool fieldValuesRequired = true, bool allFieldValuesRequired = true)
+        {
+            this.FilePathRequired = filePathRequired;
+            this.TemplateNameRequired = templateNameRequired;
+            this.FieldValuesRequired = fieldValuesRequired;
+            this.AllFieldValuesRequired = allFieldValuesRequired;
+        }
+
         /// <summary>
         /// Field IDs and values to filter on.
         /// </summary>
-        public ObservableCollection<FieldData> FilterFieldData = new ObservableCollection<FieldData>(new List<FieldData>());
+        public ObservableCollection<FieldData> FilterFieldData
+        {
+            get
+            {
+                if (_filterFieldData == null)
+                    _filterFieldData = new ObservableCollection<FieldData>();
+
+                return _filterFieldData;
+            }
+            set
+            {
+                _filterFieldData = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Get FilterFieldData as a Dictionary.
@@ -158,6 +191,17 @@ namespace EncTemplatesMgr.ViewModel
                 AllFieldValuesRequired = AllFieldValuesRequired,
                 FilterFieldValues = FilterFieldValues
             };
+        }
+
+        private void ClearFilterInputs()
+        {
+            FilePathRequired = false;
+            TemplateNameRequired = false;
+            FieldValuesRequired = false;
+            AllFieldValuesRequired = false;
+            FilterFilePath = string.Empty;
+            FilterTemplateName = string.Empty;
+            FilterFieldData = new ObservableCollection<FieldData> { };
         }
     }
 }

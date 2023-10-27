@@ -1,27 +1,14 @@
 ﻿using EllieMae.EMLite.ClientServer;
 using EncTemplatesMgr.Common;
-using EncTemplatesMgr.ViewModel;
 using EncTemplatesMgr.Helpers;
+using EncTemplatesMgr.ViewModel;
 using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EncTemplatesMgr
 {
@@ -33,7 +20,7 @@ namespace EncTemplatesMgr
         /// <summary>
         /// Fields to update and data to update them with.
         /// </summary>
-        private ObservableCollection<FieldData> _fieldData = new ObservableCollection<FieldData>(new List<FieldData>());
+        private ObservableCollection<FieldData> FieldData = new ObservableCollection<FieldData>(new List<FieldData>());
 
         /// <summary>
         /// Only update the template if it has the given fields with the given data.
@@ -57,7 +44,8 @@ namespace EncTemplatesMgr
             PopulateTemplateTypeCombobox();
 
             lblStatus.Visibility = Visibility.Hidden;
-            fieldsAndValuesGrid.DataContext = _fieldData;
+            fieldsAndValuesGrid.DataContext = FieldData;
+            //filterFieldsAndValuesGrid.DataContext = FilterData.FilterFieldData;
             FilterStackPanel.DataContext = FilterData;
             exportFilePath.Text = _defaultFilePath;
         }
@@ -104,18 +92,6 @@ namespace EncTemplatesMgr
             if (string.IsNullOrEmpty(templateType.Text))
                 return;
 
-            //var filter = new Filter()
-            //{
-            //    IncludeAllTemplates = (bool)selectAllTemplates.IsChecked,
-            //    FilterFilePath = filePathContains.Text,
-            //    FilePathRequired = (bool)filePathMustMatch.IsChecked,
-            //    FilterTemplateName = templateNameContains.Text,
-            //    TemplateNameRequired = (bool)templateNameMustMatch.IsChecked,
-            //    FilterFieldValues = TypeConverters.FieldDataCollectionToDictionary(_filterData),
-            //    FieldValuesRequired = (bool)fieldValuesMustMatch.IsChecked,
-            //    AllFieldValuesRequired = (bool)allFieldValuesMustMatch.IsChecked
-            //};
-
             var exportPath = CheckFilePath(exportFilePath.Text);
             var templateExport = new TemplateExporter((TemplateSettingsType)templateType.SelectedValue)
             {
@@ -131,18 +107,6 @@ namespace EncTemplatesMgr
         {
             if (string.IsNullOrEmpty(templateType.Text))
                 return;
-
-            //var filter = new Filter()
-            //{
-            //    IncludeAllTemplates = (bool)selectAllTemplates.IsChecked,
-            //    FilterFilePath = filePathContains.Text,
-            //    FilePathRequired = (bool)filePathMustMatch.IsChecked,
-            //    FilterTemplateName = templateNameContains.Text,
-            //    TemplateNameRequired = (bool)templateNameMustMatch.IsChecked,
-            //    FilterFieldValues = TypeConverters.FieldDataCollectionToDictionary(_filterFieldData),
-            //    FieldValuesRequired = (bool)fieldValuesMustMatch.IsChecked,
-            //    AllFieldValuesRequired = (bool)allFieldValuesMustMatch.IsChecked
-            //};
 
             var importPath = exportFilePath.Text;
             if (string.IsNullOrEmpty(importPath) || !File.Exists(importPath))
@@ -167,22 +131,10 @@ namespace EncTemplatesMgr
             if (string.IsNullOrEmpty(templateType.Text))
                 return;
 
-            //var filter = new Filter()
-            //{
-            //    IncludeAllTemplates = (bool)selectAllTemplates.IsChecked,
-            //    FilterFilePath = filePathContains.Text,
-            //    FilePathRequired = (bool)filePathMustMatch.IsChecked,
-            //    FilterTemplateName = templateNameContains.Text,
-            //    TemplateNameRequired = (bool)templateNameMustMatch.IsChecked,
-            //    FilterFieldValues = TypeConverters.FieldDataCollectionToDictionary(_filterFieldData),
-            //    FieldValuesRequired = (bool)fieldValuesMustMatch.IsChecked,
-            //    AllFieldValuesRequired = (bool)allFieldValuesMustMatch.IsChecked
-            //};
-
             var templateUpdate = new TemplateUpdater(
                 (TemplateSettingsType)templateType.SelectedValue,
                 appendDescription.Text,
-                TypeConverters.FieldDataCollectionToDictionary(_fieldData))
+                TypeConverters.FieldDataCollectionToDictionary(FieldData))
             { TemplateFilter = FilterData.ToFilter() };
 
             StartProgressBar();
