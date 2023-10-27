@@ -58,10 +58,7 @@ namespace EncTemplatesMgr
 
             lblStatus.Visibility = Visibility.Hidden;
             fieldsAndValuesGrid.DataContext = _fieldData;
-            // Updated data context here. todo: get all the other controls added also
             FilterStackPanel.DataContext = FilterData;
-            // todo: replace this
-            filterFieldsAndValuesGrid.DataContext = FilterData.FilterFieldData;
             exportFilePath.Text = _defaultFilePath;
         }
 
