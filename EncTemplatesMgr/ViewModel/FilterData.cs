@@ -120,8 +120,15 @@ namespace EncTemplatesMgr.ViewModel
 
         private ObservableCollection<FieldData> _filterFieldData;
 
-        public FilterData(bool filePathRequired = true, bool templateNameRequired = true,
-            bool fieldValuesRequired = true, bool allFieldValuesRequired = true)
+        /// <summary>
+        /// FilterData Constructor.
+        /// </summary>
+        /// <param name="filePathRequired">File path must match.</param>
+        /// <param name="templateNameRequired">Template name must match.</param>
+        /// <param name="fieldValuesRequired">The field values section must have a match.</param>
+        /// <param name="allFieldValuesRequired">All field values must match.</param>
+        public FilterData(bool filePathRequired = false, bool templateNameRequired = false,
+            bool fieldValuesRequired = false, bool allFieldValuesRequired = false)
         {
             this.FilePathRequired = filePathRequired;
             this.TemplateNameRequired = templateNameRequired;
