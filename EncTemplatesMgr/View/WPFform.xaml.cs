@@ -23,11 +23,6 @@ namespace EncTemplatesMgr
         private ObservableCollection<FieldData> FieldData = new ObservableCollection<FieldData>(new List<FieldData>());
 
         /// <summary>
-        /// Only update the template if it has the given fields with the given data.
-        /// </summary>
-        //private ObservableCollection<FieldData> _filterFieldData = new ObservableCollection<FieldData>(new List<FieldData>());
-
-        /// <summary>
         /// Filter View Model
         /// </summary>
         private FilterData FilterData = new FilterData();
@@ -45,15 +40,14 @@ namespace EncTemplatesMgr
 
             lblStatus.Visibility = Visibility.Hidden;
             fieldsAndValuesGrid.DataContext = FieldData;
-            //filterFieldsAndValuesGrid.DataContext = FilterData.FilterFieldData;
             FilterStackPanel.DataContext = FilterData;
             exportFilePath.Text = _defaultFilePath;
         }
 
         private void HyperlinkOpenDocumentation_Click(object sender, RoutedEventArgs e)
         {
-            var userGuidePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "EncTemplatesMgr");
-            var userGuideFile = System.IO.Path.Combine(userGuidePath, "UserGuide.htm");
+            var userGuidePath = Path.Combine(Path.GetTempPath(), "EncTemplatesMgr");
+            var userGuideFile = Path.Combine(userGuidePath, "UserGuide.htm");
             if (!File.Exists(userGuideFile))
             {
                 Directory.CreateDirectory(userGuidePath);
